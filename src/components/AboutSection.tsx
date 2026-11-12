@@ -1,12 +1,16 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Award, CheckCircle, Heart, Shield, Compass, FileText } from 'lucide-react';
+import { Language, TRANSLATIONS } from '../data/translations';
 
 interface AboutSectionProps {
   onOpenCV: () => void;
   onOpenConsultation: () => void;
+  lang: Language;
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenConsultation }) => {
+export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenConsultation, lang }) => {
+  const t = TRANSLATIONS[lang].about;
+
   return (
     <section id="about" className="py-16 sm:py-24 bg-slate-50/70 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,7 +35,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
 
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <div className="font-display font-bold text-lg">Dwi Priyoko Takasihaeng</div>
-                    <div className="text-xs text-teal-300">Kaka Yoko · S1 Sistem Informasi & Pemandu Bahari</div>
+                    <div className="text-xs text-teal-300">
+                      Kaka Yoko · {lang === 'en' ? 'B.S. Information Systems & Marine Tour Guide' : 'S1 Sistem Informasi & Pemandu Bahari'}
+                    </div>
                     <div className="text-[11px] text-slate-300 flex items-center gap-1 mt-1">
                       <MapPin className="w-3.5 h-3.5" />
                       Sorong, Papua Barat Daya
@@ -40,7 +46,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
                 </div>
 
                 <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
-                  <span className="text-slate-500 dark:text-slate-400">Website Resmi:</span>
+                  <span className="text-slate-500 dark:text-slate-400">{t.officialWebsite}:</span>
                   <span className="font-mono font-semibold text-teal-700 dark:text-teal-400">www.kakayoko.my.id</span>
                 </div>
               </div>
@@ -52,24 +58,24 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
           <div className="lg:col-span-7 space-y-6">
             
             <div className="text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
-              Tentang Kaka Yoko (About Me)
+              {t.kicker}
             </div>
 
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Dedikasi untuk Keindahan Alam Papua & Solusi Teknologi Terpercaya
+              {t.title}
             </h2>
 
             <div className="space-y-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
               <p>
-                Saya lahir, tumbuh, dan menetap di <strong className="text-slate-900 dark:text-white">Kota Sorong, Papua Barat Daya</strong>. Nama lengkap saya <strong className="text-slate-900 dark:text-white">Dwi Priyoko Takasihaeng</strong> (akrab disapa Kaka Yoko). Saya menyelesaikan pendidikan sarjana <strong className="text-slate-900 dark:text-white">S1 Sistem Informasi</strong> di Universitas Victory Sorong dan alumni Teknik Komputer & Jaringan (TKJ) SMK Negeri 1 Kota Sorong.
+                {t.p1}
               </p>
 
               <p>
-                Memiliki latar belakang kerja yang solid di bidang operasional industri, mulai dari pendukung tanggap darurat medis (International SOS di Petrogas Basin), asisten keselamatan kerja (K3), hingga pemeliharaan infrastruktur jaringan IT & CCTV di perbankan (Bank Mandiri) dan korporasi teknologi di Sorong.
+                {t.p2}
               </p>
 
               <p>
-                Sebagai seorang <strong className="text-slate-900 dark:text-white">Freelance Guide Raja Ampat</strong>, saya mengkhususkan pemanduan pada spot-spot memukau di <strong className="text-slate-900 dark:text-white">Pulau Waigeo dan kawasan karst Misool</strong> dengan rekor keselamatan zero-accident, didukung sertifikasi First Aid & P3K darurat serta pemahaman mendalam karakter perairan Papua Barat Daya.
+                {t.p3}
               </p>
             </div>
 
@@ -77,20 +83,20 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
               <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850">
                 <Shield className="w-5 h-5 text-teal-600 dark:text-teal-400 mb-1.5" />
-                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">Integritas & K3</div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Disiplin kerja, standar keselamatan tinggi, dan loyalitas waktu.</div>
+                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">{t.val1Title}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t.val1Desc}</div>
               </div>
 
               <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850">
                 <Compass className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-1.5" />
-                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">Pengalaman Lapangan</div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Menguasai medan geografis darat, proyek migas, & pulau Raja Ampat.</div>
+                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">{t.val2Title}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t.val2Desc}</div>
               </div>
 
               <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850">
                 <Heart className="w-5 h-5 text-rose-500 dark:text-rose-400 mb-1.5" />
-                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">Respon Cepat</div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Komunikasi mudah via WhatsApp (+62 823-9858-1997).</div>
+                <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white">{t.val3Title}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{t.val3Desc}</div>
               </div>
             </div>
 
@@ -101,7 +107,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
                 className="px-5 py-2.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-lg transition inline-flex items-center gap-2 cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                <span>Baca CV Lengkap & Pratinjau PDF</span>
+                <span>{t.btnFullCv}</span>
               </button>
 
               <a
@@ -110,14 +116,14 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
                 className="px-4 py-2.5 text-xs sm:text-sm font-semibold text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/50 hover:bg-teal-100 dark:hover:bg-teal-900/60 border border-teal-200 dark:border-teal-800 rounded-lg transition inline-flex items-center gap-2 cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-teal-600" />
-                <span>Unduh CV (PDF Asli)</span>
+                <span>{t.btnDownloadPdf}</span>
               </a>
 
               <button
                 onClick={onOpenConsultation}
                 className="px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-xs transition inline-flex items-center gap-2 cursor-pointer"
               >
-                <span>Konsultasi Langsung via WhatsApp</span>
+                <span>{t.btnDirectWa}</span>
               </button>
             </div>
 
@@ -129,3 +135,4 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenCV, onOpenCons
     </section>
   );
 };
+

@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, MessageCircle, Clock, Send, CheckCircle2, Globe, Shield } from 'lucide-react';
+import { Language, TRANSLATIONS } from '../data/translations';
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  lang?: Language;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ lang = 'id' }) => {
   const [senderName, setSenderName] = useState('');
   const [senderContact, setSenderContact] = useState('');
-  const [serviceNeeded, setServiceNeeded] = useState('Guide Raja Ampat');
+  const [serviceNeeded, setServiceNeeded] = useState(
+    lang === 'en' ? 'Raja Ampat Guide (Waigeo / Misool)' : 'Paket Pemandu Trip Wisata Raja Ampat'
+  );
   const [userMsg, setUserMsg] = useState('');
   const [status, setStatus] = useState<string | null>(null);
 
+  const t = TRANSLATIONS[lang].contact;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const message = 
-`Halo Kaka Yoko,
-Saya ${senderName || 'Klien'} (${senderContact || '-'}),
-Ingin menanyakan perihal: ${serviceNeeded}
-Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
-(Dikirim melalui form kontak www.kakayoko.my.id)`;
+    const message = lang === 'en'
+      ? `Hello Kaka Yoko,\nI am ${senderName || 'Client'} (${senderContact || '-'}),\nInquiring about: ${serviceNeeded}\nMessage: ${userMsg || 'Please provide schedule availability and estimated quote.'}\n(Sent via contact form www.kakayoko.my.id)`
+      : `Halo Kaka Yoko,\nSaya ${senderName || 'Klien'} (${senderContact || '-'}),\nIngin menanyakan perihal: ${serviceNeeded}\nPesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}\n(Dikirim melalui form kontak www.kakayoko.my.id)`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/6282398581997?text=${encoded}`, '_blank');
-    setStatus('Pesan berhasil dibuka di WhatsApp!');
+    setStatus(lang === 'en' ? 'Message opened in WhatsApp!' : 'Pesan berhasil dibuka di WhatsApp!');
     setTimeout(() => setStatus(null), 5000);
   };
 
@@ -33,13 +39,13 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
           <div className="lg:col-span-5 space-y-6">
             <div>
               <div className="text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider mb-2">
-                Kontak & Konsultasi
+                {t.kicker}
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Hubungi Kaka Yoko Sekarang
+                {t.title}
               </h2>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                Konsultasikan rencana liburan trip Raja Ampat, survey lokasi CCTV, instalasi jaringan Starlink, atau pembuatan website usaha Anda.
+                {t.subtitle}
               </p>
             </div>
 
@@ -59,7 +65,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-teal-800 dark:text-teal-300 uppercase">
-                      WhatsApp Resmi (Respon Cepat)
+                      {t.waTitle}
                     </div>
                     <div className="text-sm font-bold text-slate-900 dark:text-white">
                       +62 823-9858-1997
@@ -67,7 +73,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                   </div>
                 </div>
                 <span className="text-xs font-semibold text-teal-700 dark:text-teal-300 group-hover:underline">
-                  Chat Langsung →
+                  {t.waBtn}
                 </span>
               </a>
 
@@ -82,7 +88,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                      Email Korespondensi
+                      {t.emailTitle}
                     </div>
                     <div className="text-sm font-bold text-slate-900 dark:text-white truncate max-w-[200px] sm:max-w-none">
                       yokotakasihaen9@gmail.com
@@ -90,7 +96,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                   </div>
                 </div>
                 <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 group-hover:underline">
-                  Kirim Email →
+                  {t.emailBtn}
                 </span>
               </a>
 
@@ -101,10 +107,10 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                 </div>
                 <div className="text-xs space-y-1">
                   <div className="font-semibold text-slate-900 dark:text-white">
-                    Pusat Operasional: Sorong, Papua Barat Daya
+                    {t.locationTitle}
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                    Melayani seluruh area Kota Sorong, Kabupaten Sorong, Aimas, Waisai, serta spot wisata kepulauan di Raja Ampat (Pulau Waigeo, Selat Dampier, Arborek, Kri, Mansuar, dan Misool).
+                    {t.locationDesc}
                   </p>
                 </div>
               </div>
@@ -116,13 +122,13 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                 </div>
                 <div className="text-xs space-y-0.5">
                   <div className="font-semibold text-slate-900 dark:text-white">
-                    Waktu Pelayanan (WIT - Waktu Indonesia Timur)
+                    {t.hoursTitle}
                   </div>
                   <div className="text-slate-600 dark:text-slate-400">
-                    Senin - Minggu: 07.30 - 21.00 WIT
+                    {t.hoursTime}
                   </div>
                   <div className="text-slate-400 dark:text-slate-500 text-[11px]">
-                    *Layanan darurat teknis & trip laut dapat disesuaikan jadwal khusus.
+                    {t.hoursNote}
                   </div>
                 </div>
               </div>
@@ -134,22 +140,22 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
           <div className="lg:col-span-7">
             <div className="p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 shadow-sm">
               <h3 className="font-display text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                Kirim Pesan Langsung ke WhatsApp Kaka Yoko
+                {t.formTitle}
               </h3>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                Isi form singkat ini untuk langsung terhubung dengan Kaka Yoko tanpa perlu repot mengetik ulang format pesan.
+                {t.formDesc}
               </p>
 
               <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      Nama Lengkap:
+                      {t.formName}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="Nama Anda / Perusahaan"
+                      placeholder={lang === 'en' ? 'Your name / company' : 'Nama Anda / Perusahaan'}
                       value={senderName}
                       onChange={(e) => setSenderName(e.target.value)}
                       className="w-full text-xs p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-teal-500"
@@ -158,7 +164,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
 
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      Nomor HP / WhatsApp:
+                      {t.formPhone}
                     </label>
                     <input
                       type="tel"
@@ -173,30 +179,47 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Layanan yang Ingin Ditanyakan:
+                    {t.formService}
                   </label>
                   <select
                     value={serviceNeeded}
                     onChange={(e) => setServiceNeeded(e.target.value)}
                     className="w-full text-xs p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-teal-500"
                   >
-                    <option value="Paket Pemandu Trip Wisata Raja Ampat">Paket Pemandu Trip Wisata Raja Ampat</option>
-                    <option value="Pemasangan Kamera CCTV Baru (IP / Analog)">Pemasangan Kamera CCTV Baru (IP / Analog)</option>
-                    <option value="Perbaikan / Servis Sistem CCTV Rusak">Perbaikan / Servis Sistem CCTV Rusak</option>
-                    <option value="Instalasi Starlink Satelit & Jaringan Mikrotik">Instalasi Starlink Satelit & Jaringan Mikrotik</option>
-                    <option value="Pembuatan Website Bisnis / Tour Travel">Pembuatan Website Bisnis / Tour Travel</option>
-                    <option value="Konsultasi Gabungan / Kemitraan Proyek">Konsultasi Gabungan / Kemitraan Proyek</option>
+                    {lang === 'en' ? (
+                      <>
+                        <option value="Raja Ampat Guide (Waigeo & Misool)">Raja Ampat Tour Guide (Waigeo & Misool Spots)</option>
+                        <option value="New CCTV Camera Installation (IP/Analog)">New CCTV Camera Installation (IP/Analog)</option>
+                        <option value="CCTV Troubleshooting & Repair">CCTV Troubleshooting & Maintenance</option>
+                        <option value="Starlink Satellite & Mikrotik Setup">Starlink Satellite & Mikrotik Networking</option>
+                        <option value="Tour & Travel Web Development">Tour & Travel Web Development</option>
+                        <option value="Combined Consultation / Project Partnership">Combined Consultation / Project Partnership</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="Paket Pemandu Trip Wisata Raja Ampat">Paket Pemandu Trip Wisata Raja Ampat (Spot Waigeo & Misool)</option>
+                        <option value="Pemasangan Kamera CCTV Baru (IP / Analog)">Pemasangan Kamera CCTV Baru (IP / Analog)</option>
+                        <option value="Perbaikan / Servis Sistem CCTV Rusak">Perbaikan / Servis Sistem CCTV Rusak</option>
+                        <option value="Instalasi Starlink Satelit & Jaringan Mikrotik">Instalasi Starlink Satelit & Jaringan Mikrotik</option>
+                        <option value="Pembuatan Website Bisnis / Tour Travel">Pembuatan Website Bisnis / Tour Travel</option>
+                        <option value="Konsultasi Gabungan / Kemitraan Proyek">Konsultasi Gabungan / Kemitraan Proyek</option>
+                      </>
+                    )}
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Tuliskan Detail Pertanyaan Anda:
+                    {t.formMessage}
                   </label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Contoh: Halo Kaka Yoko, kami berencana trip ke Piaynemo untuk 6 orang tanggal 20 bulan depan, bisa info penawaran harga boat dan guide? Terima kasih."
+                    placeholder={
+                      lang === 'en'
+                        ? 'Example: Hello Kaka Yoko, we are planning a trip to Misool for 4 people next month. Could you share your guide availability and package details? Thank you.'
+                        : 'Contoh: Halo Kaka Yoko, kami berencana trip ke Misool untuk 4 orang bulan depan, bisa info ketersediaan jadwal dan estimasi biaya pemanduan? Terima kasih.'
+                    }
                     value={userMsg}
                     onChange={(e) => setUserMsg(e.target.value)}
                     className="w-full text-xs p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-teal-500"
@@ -209,7 +232,7 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
                     className="w-full py-3 px-4 text-xs sm:text-sm font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm transition flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Buka Chat WhatsApp (+62 823-9858-1997)</span>
+                    <span>{t.formSubmit}</span>
                   </button>
                 </div>
 
@@ -229,3 +252,4 @@ Pesan: ${userMsg || 'Mohon info ketersediaan jadwal dan estimasi biaya.'}
     </section>
   );
 };
+

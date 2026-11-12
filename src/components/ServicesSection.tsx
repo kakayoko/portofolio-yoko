@@ -1,11 +1,15 @@
 import React from 'react';
 import { Compass, ShieldCheck, Cpu, Code2, ArrowUpRight, Check, MessageSquare } from 'lucide-react';
+import { Language, TRANSLATIONS } from '../data/translations';
 
 interface ServicesSectionProps {
   onSelectService: (serviceKey: string) => void;
+  lang: Language;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService }) => {
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService, lang }) => {
+  const t = TRANSLATIONS[lang].services;
+
   const openWhatsAppService = (message: string) => {
     const text = encodeURIComponent(message);
     window.open(`https://wa.me/6282398581997?text=${text}`, '_blank');
@@ -18,17 +22,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         {/* Section Header */}
         <div className="max-w-3xl">
           <div className="text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider mb-2">
-            Keahlian & Layanan Profesional
+            {t.kicker}
           </div>
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Empat Pilar Keahlian untuk Solusi Pariwisata & Teknologi Anda
+            {t.title}
           </h2>
           <p className="mt-3 text-base text-slate-600 dark:text-slate-300">
-            Dari puncak karst hingga ruang server, Kaka Yoko menghadirkan integritas kerja tinggi, pengalaman lapangan riil, dan pemahaman mendalam karakteristik geografis Papua Barat Daya.
+            {t.subtitle}
           </p>
         </div>
 
-        {/* 4 Pillars Grid (Asymmetric Bento style) */}
+        {/* 4 Pillars Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           
           {/* Card 1: Guide Raja Ampat */}
@@ -38,33 +42,35 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-100 dark:border-teal-900/50 flex items-center justify-center text-teal-600 dark:text-teal-400">
                   <Compass className="w-6 h-6" />
                 </div>
-                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">01. WISATA BAHARI</span>
+                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">
+                  01. {lang === 'en' ? 'MARINE EXPEDITION' : 'WISATA BAHARI'}
+                </span>
               </div>
 
               <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                Freelance Guide Spot Waigeo & Misool
+                {t.guideTitle}
               </h3>
               
               <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Pemanduan wisata bahari independen khusus pada spot-spot unggulan Pulau Waigeo dan keajaiban karst Misool. Menjamin kenyamanan rute, protokol keselamatan laut (First Aid), pengurusan izin konservasi BLUD, serta pendampingan langsung di spot snorkeling terbaik.
+                {t.guideDesc}
               </p>
 
               <div className="mt-6 space-y-2.5">
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-                  <span>Spot Pulau Waigeo: Teluk Kabui, Batu Pensil, Pasir Timbul, Yenbuba & Friwen</span>
+                  <span>{t.guideBullet1}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-                  <span>Spot Eksotis Misool: Danau Ubur-ubur, Gua Keramat Tomolol, Balbulol & Karst Yapap</span>
+                  <span>{t.guideBullet2}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-                  <span>Snorkeling Manta Ray, Terumbu Karang Sehat & Pengamatan Burung Cenderawasih</span>
+                  <span>{t.guideBullet3}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-                  <span>Pengurusan izin konservasi PIN BLUD & liaison homestay lokal</span>
+                  <span>{t.guideBullet4}</span>
                 </div>
               </div>
             </div>
@@ -74,16 +80,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 onClick={() => onSelectService('guide')}
                 className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 flex items-center gap-1 cursor-pointer"
               >
-                <span>Lihat Foto & Detail Proyek</span>
+                <span>{t.btnSeeDetails}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
               <button
-                onClick={() => openWhatsAppService('Halo Kaka Yoko, saya ingin menggunakan jasa guide Anda untuk spot Waigeo / Misool. Mohon info ketersediaan jadwal pemanduan.')}
+                onClick={() => openWhatsAppService(
+                  lang === 'en'
+                    ? 'Hello Kaka Yoko, I would like to book your guiding service for Waigeo / Misool. Please share your schedule availability.'
+                    : 'Halo Kaka Yoko, saya ingin menggunakan jasa guide Anda untuk spot Waigeo / Misool. Mohon info ketersediaan jadwal pemanduan.'
+                )}
                 className="px-3.5 py-1.5 text-xs font-medium bg-teal-600 hover:bg-teal-700 text-white rounded-md transition flex items-center gap-1.5 cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>Tanya Guide Waigeo / Misool</span>
+                <span>{t.btnOrderGuide}</span>
               </button>
             </div>
           </div>
@@ -95,33 +105,35 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">02. SMART SECURITY</span>
+                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">
+                  02. {lang === 'en' ? 'SMART SURVEILLANCE' : 'SMART SECURITY'}
+                </span>
               </div>
 
               <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                Teknisi Spesialis CCTV & Pengawasan
+                {t.cctvTitle}
               </h3>
               
               <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Pemasangan kamera pengawas beresolusi tinggi (Analog & IP Camera) dengan kerapian instalasi kabel conduit. Berpengalaman menangani proyek ruko perkotaan, perkantoran, perumahan, resort pulau, hingga kapal phinisi.
+                {t.cctvDesc}
               </p>
 
               <div className="mt-6 space-y-2.5">
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span>Instalasi IP Camera 2MP/4MP/5MP ColorVu (Hikvision, Dahua, Uniview)</span>
+                  <span>{t.cctvBullet1}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span>Kamera Outdoor tahan air hujan badai & anti-korosi uap laut garam</span>
+                  <span>{t.cctvBullet2}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span>Setting pemantauan online langsung di HP Android & iPhone tanpa batas jarak</span>
+                  <span>{t.cctvBullet3}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                  <span>Troubleshooting, reset password DVR, ganti harddisk, & kontrak maintenance</span>
+                  <span>{t.cctvBullet4}</span>
                 </div>
               </div>
             </div>
@@ -131,16 +143,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 onClick={() => onSelectService('cctv')}
                 className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 flex items-center gap-1 cursor-pointer"
               >
-                <span>Lihat Portofolio CCTV</span>
+                <span>{t.btnSeeDetails}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
               <button
-                onClick={() => openWhatsAppService('Halo Kaka Yoko, saya mau konsultasi pasang kamera CCTV di lokasi saya (Kota/Kabupaten Sorong). Mau tanya paket dan jadwal survey lokasi.')}
+                onClick={() => openWhatsAppService(
+                  lang === 'en'
+                    ? 'Hello Kaka Yoko, I would like to consult on CCTV camera installation in Sorong. Please share packages and on-site survey availability.'
+                    : 'Halo Kaka Yoko, saya mau konsultasi pasang kamera CCTV di lokasi saya (Kota/Kabupaten Sorong). Mau tanya paket dan jadwal survey lokasi.'
+                )}
                 className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md transition flex items-center gap-1.5 cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>Survey & Pasang CCTV</span>
+                <span>{t.btnOrderCctv}</span>
               </button>
             </div>
           </div>
@@ -152,33 +168,35 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                   <Cpu className="w-6 h-6" />
                 </div>
-                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">03. NETWORKING & IT</span>
+                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">
+                  03. {lang === 'en' ? 'NETWORKING & SATELLITE' : 'NETWORKING & IT'}
+                </span>
               </div>
 
               <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                Konsultan IT & Infrastruktur Jaringan
+                {t.itTitle}
               </h3>
               
               <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Penyedia solusi jaringan komputer terstruktur, manajemen router Mikrotik, hingga instalasi satelit Starlink di pulau-pulau terluar Raja Ampat yang belum memiliki jangkauan kabel optik maupun sinyal seluler stabil.
+                {t.itDesc}
               </p>
 
               <div className="mt-6 space-y-2.5">
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Instalasi & Bypass Dish Starlink Satelit untuk resort pulau & kantor proyek</span>
+                  <span>{t.itBullet1}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Manajemen Mikrotik: Bandwidth limit, Hotspot Voucher tamu, Failover 2 ISP</span>
+                  <span>{t.itBullet2}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Penataan Rak Server 9U/12U, Switch Gigabit Managed, & Patch Panel Cat6 rapi</span>
+                  <span>{t.itBullet3}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Server File Sharing NAS (Synology) untuk proteksi data kantor dari ransomware</span>
+                  <span>{t.itBullet4}</span>
                 </div>
               </div>
             </div>
@@ -188,16 +206,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 onClick={() => onSelectService('it')}
                 className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-1 cursor-pointer"
               >
-                <span>Lihat Portofolio IT</span>
+                <span>{t.btnSeeDetails}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
               <button
-                onClick={() => openWhatsAppService('Halo Kaka Yoko, saya butuh konsultasi IT untuk setup jaringan WiFi / Starlink / Mikrotik di Sorong atau Raja Ampat.')}
+                onClick={() => openWhatsAppService(
+                  lang === 'en'
+                    ? 'Hello Kaka Yoko, I need IT consultation for WiFi / Starlink / Mikrotik networking in Sorong or Raja Ampat.'
+                    : 'Halo Kaka Yoko, saya butuh konsultasi IT untuk setup jaringan WiFi / Starlink / Mikrotik di Sorong atau Raja Ampat.'
+                )}
                 className="px-3.5 py-1.5 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition flex items-center gap-1.5 cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>Konsultasi Jaringan</span>
+                <span>{t.btnOrderIt}</span>
               </button>
             </div>
           </div>
@@ -209,33 +231,35 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                   <Code2 className="w-6 h-6" />
                 </div>
-                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">04. WEB & DIGITAL</span>
+                <span className="font-mono text-xs font-semibold text-slate-400 dark:text-slate-500">
+                  04. {lang === 'en' ? 'WEB & DEVELOPMENT' : 'WEB & DIGITAL'}
+                </span>
               </div>
 
               <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                Web Development & Solusi Digital
+                {t.webTitle}
               </h3>
               
               <p className="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Pengembangan website modern yang cepat, mobile-friendly, dan berorientasi konversi. Membantu pelaku usaha wisata, UMKM, dan perusahaan kontraktor di Papua memiliki etalase digital resmi dan memenangkan persaingan di Google.
+                {t.webDesc}
               </p>
 
               <div className="mt-6 space-y-2.5">
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
-                  <span>Website Tour & Travel Raja Ampat terintegrasi WhatsApp & booking otomatis</span>
+                  <span>{t.webBullet1}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
-                  <span>Company Profile elegan untuk CV, PT, instansi, & rental transportasi</span>
+                  <span>{t.webBullet2}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
-                  <span>Setup domain resmi (.my.id, .com, .id, .co.id) & email korporat gratis</span>
+                  <span>{t.webBullet3}</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                   <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
-                  <span>Optimasi SEO Google Lokal Sorong agar bisnis mudah ditemukan pencari jasa</span>
+                  <span>{t.webBullet4}</span>
                 </div>
               </div>
             </div>
@@ -245,16 +269,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 onClick={() => onSelectService('web')}
                 className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 cursor-pointer"
               >
-                <span>Lihat Portofolio Web</span>
+                <span>{t.btnSeeDetails}</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
 
               <button
-                onClick={() => openWhatsAppService('Halo Kaka Yoko, saya ingin konsultasi pembuatan website untuk bisnis / usaha saya. Mohon informasi paket dan tahapan pembuatannya.')}
+                onClick={() => openWhatsAppService(
+                  lang === 'en'
+                    ? 'Hello Kaka Yoko, I would like to consult on web development for my business. Please share information on packages and process.'
+                    : 'Halo Kaka Yoko, saya ingin konsultasi pembuatan website untuk bisnis / usaha saya. Mohon informasi paket dan tahapan pembuatannya.'
+                )}
                 className="px-3.5 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition flex items-center gap-1.5 cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                <span>Bikin Website</span>
+                <span>{t.btnOrderWeb}</span>
               </button>
             </div>
           </div>
@@ -265,3 +293,4 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
     </section>
   );
 };
+

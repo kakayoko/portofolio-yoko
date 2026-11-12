@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CV_DATA } from '../data/cvData';
+import { Language, TRANSLATIONS } from '../data/translations';
 import { 
   Printer, 
   ArrowLeft, 
@@ -23,17 +24,23 @@ import {
 
 interface CVViewProps {
   onBackToHome: () => void;
+  lang?: Language;
 }
 
-export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
+export const CVView: React.FC<CVViewProps> = ({ onBackToHome, lang = 'id' }) => {
   const [activeTab, setActiveTab] = useState<'interactive' | 'pdf'>('interactive');
+  const t = TRANSLATIONS[lang].cv;
 
   const handlePrint = () => {
     window.print();
   };
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent(`Halo Kaka Yoko (${CV_DATA.fullName}), saya telah melihat CV Anda di ${CV_DATA.domain} dan ingin berdiskusi mengenai kualifikasi / kerja sama proyek.`);
+    const text = encodeURIComponent(
+      lang === 'en'
+        ? `Hello Kaka Yoko (${CV_DATA.fullName}), I viewed your CV on ${CV_DATA.domain} and would like to discuss potential project opportunities.`
+        : `Halo Kaka Yoko (${CV_DATA.fullName}), saya telah melihat CV Anda di ${CV_DATA.domain} dan ingin berdiskusi mengenai kualifikasi / kerja sama proyek.`
+    );
     window.open(`https://wa.me/6282398581997?text=${text}`, '_blank');
   };
 
@@ -49,7 +56,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
             className="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer self-start sm:self-auto"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Beranda</span>
+            <span>{t.backHome}</span>
           </button>
 
           {/* Mode Switcher: Interactive Web View vs Original PDF Document */}
@@ -63,7 +70,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
               }`}
             >
               <FileText className="w-3.5 h-3.5" />
-              <span>Tampilan Web Interaktif</span>
+              <span>{t.interactiveTab}</span>
             </button>
 
             <button
@@ -75,7 +82,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
               }`}
             >
               <Eye className="w-3.5 h-3.5" />
-              <span>Lihat Dokumen PDF Asli</span>
+              <span>{t.pdfTab}</span>
             </button>
           </div>
 
@@ -88,14 +95,14 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
               className="flex-1 sm:flex-initial px-4 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>Unduh CV (PDF)</span>
+              <span>{t.downloadBtn}</span>
             </a>
 
             <button
               onClick={handlePrint}
-              aria-label="Cetak CV"
+              aria-label={t.printBtn}
               className="p-2 text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-300 dark:border-slate-700 rounded-lg transition cursor-pointer"
-              title="Cetak Halaman Ini"
+              title={t.printBtn}
             >
               <Printer className="w-4 h-4" />
             </button>
@@ -103,7 +110,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
             <button
               onClick={handleWhatsApp}
               className="p-2 text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-xs transition cursor-pointer"
-              title="Hubungi via WhatsApp"
+              title="WhatsApp"
             >
               <MessageCircle className="w-4 h-4" />
             </button>
@@ -115,7 +122,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
         <div className="mt-3 px-4 py-2.5 bg-teal-50/80 dark:bg-teal-950/40 border border-teal-200/80 dark:border-teal-900/50 rounded-xl flex items-center justify-between text-xs text-teal-900 dark:text-teal-200">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-            <span>Dokumen Curriculum Vitae resmi terlampir: <strong>{CV_DATA.pdfFilename}</strong></span>
+            <span>{t.pdfBanner}: <strong>{CV_DATA.pdfFilename}</strong></span>
           </div>
           <a
             href={CV_DATA.pdfUrl}
@@ -123,7 +130,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
             rel="noopener noreferrer"
             className="font-semibold underline hover:text-teal-700 dark:hover:text-teal-300 shrink-0 flex items-center gap-1"
           >
-            <span>Buka di Tab Baru</span>
+            <span>{t.pdfOpenNewTab}</span>
             <ExternalLink className="w-3 h-3" />
           </a>
         </div>
@@ -137,10 +144,10 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
               <div>
                 <h2 className="font-display font-bold text-lg text-slate-900 dark:text-white">
-                  Pratinjau Dokumen Resmi PDF
+                  {t.pdfPreviewTitle}
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  CV Dwi Priyoko Takasihaeng (2 Halaman - Petrogas Basin, International SOS, Bank Mandiri, Universitas Victory)
+                  {t.pdfPreviewSub}
                 </p>
               </div>
 
@@ -151,7 +158,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
                   className="px-3.5 py-1.5 text-xs font-semibold text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition flex items-center gap-1.5"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Download File PDF</span>
+                  <span>{t.downloadBtn}</span>
                 </a>
 
                 <a
@@ -160,7 +167,7 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 rounded-lg transition flex items-center gap-1"
                 >
-                  <span>Layar Penuh</span>
+                  <span>{lang === 'en' ? 'Full Screen' : 'Layar Penuh'}</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -176,13 +183,13 @@ export const CVView: React.FC<CVViewProps> = ({ onBackToHome }) => {
             </div>
 
             <div className="text-center text-xs text-slate-500 dark:text-slate-400 pt-2">
-              Jika dokumen PDF tidak muncul secara otomatis di browser Anda, silakan klik{' '}
+              {t.pdfFallback}{' '}
               <a
                 href={CV_DATA.pdfUrl}
                 download={CV_DATA.pdfFilename}
                 className="text-teal-600 dark:text-teal-400 font-semibold underline"
               >
-                Unduh Berkas PDF di Sini
+                {t.downloadBtn}
               </a>.
             </div>
 

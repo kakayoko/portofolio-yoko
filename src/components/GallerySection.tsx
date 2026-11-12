@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GALLERY_ITEMS, GalleryItem } from '../data/galleryData';
+import { Language, TRANSLATIONS } from '../data/translations';
 import { 
   MapPin, 
   X, 
@@ -21,15 +22,17 @@ import {
 
 interface GallerySectionProps {
   initialCategory?: string;
+  lang?: Language;
 }
 
-export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory = 'all' }) => {
+export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory = 'all', lang = 'id' }) => {
   const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
   const [viewMode, setViewMode] = useState<'slider' | 'grid'>('slider');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true);
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
 
+  const t = TRANSLATIONS[lang].gallery;
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const filteredItems = activeCategory === 'all'
@@ -97,7 +100,9 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
 
   const handleInquireMedia = (item: GalleryItem) => {
     const text = encodeURIComponent(
-      `Halo Kaka Yoko, saya melihat dokumentasi "${item.title}" di lokasi ${item.location} pada website www.kakayoko.my.id. Saya tertarik untuk tanya paket trip & guide ke spot ini.`
+      lang === 'en'
+        ? `Hello Kaka Yoko, I saw the documentation "${item.title}" at ${item.location} on www.kakayoko.my.id. I am interested in inquiring about trip & guide packages to this spot.`
+        : `Halo Kaka Yoko, saya melihat dokumentasi "${item.title}" di lokasi ${item.location} pada website www.kakayoko.my.id. Saya tertarik untuk tanya paket trip & guide ke spot ini.`
     );
     window.open(`https://wa.me/6282398581997?text=${text}`, '_blank');
   };
@@ -111,13 +116,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider mb-2">
               <Camera className="w-4 h-4" />
-              <span>Dokumentasi Lapangan & Tamu ({GALLERY_ITEMS.length} Koleksi)</span>
+              <span>{t.kicker} ({GALLERY_ITEMS.length} {lang === 'en' ? 'Items' : 'Koleksi'})</span>
             </div>
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Galeri Foto & Video Eksplorasi Raja Ampat
+              {t.title}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl">
-              Dokumentasi nyata pemanduan Kaka Yoko bersama para wisatawan: kebersamaan di Geosite Piaynemo, segarnya Kali Biru Waigeo, Danau Ubur-ubur Misool, hingga keindahan bawah laut.
+              {t.subtitle}
             </p>
           </div>
 
@@ -133,7 +138,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
                 }`}
               >
                 <Sliders className="w-3.5 h-3.5" />
-                <span>Slide Bergeser</span>
+                <span>{t.modeSlider}</span>
               </button>
 
               <button
@@ -145,7 +150,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
                 }`}
               >
                 <Grid className="w-3.5 h-3.5" />
-                <span>Tampilan Grid</span>
+                <span>{t.modeGrid}</span>
               </button>
             </div>
 
@@ -153,21 +158,21 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                  title={isAutoPlaying ? 'Jeda Geser Otomatis' : 'Mulai Geser Otomatis'}
+                  title={isAutoPlaying ? (lang === 'en' ? 'Pause Auto Slide' : 'Jeda Geser Otomatis') : (lang === 'en' ? 'Start Auto Slide' : 'Mulai Geser Otomatis')}
                   className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-300 transition cursor-pointer"
                 >
                   {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 text-emerald-600" />}
                 </button>
                 <button
                   onClick={handleSlidePrev}
-                  aria-label="Slide Sebelumnya"
+                  aria-label={lang === 'en' ? 'Previous Slide' : 'Slide Sebelumnya'}
                   className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleSlideNext}
-                  aria-label="Slide Selanjutnya"
+                  aria-label={lang === 'en' ? 'Next Slide' : 'Slide Selanjutnya'}
                   className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -187,7 +192,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
                 : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            Semua Media ({GALLERY_ITEMS.length})
+            {t.catAll} ({GALLERY_ITEMS.length})
           </button>
 
           <button
@@ -199,7 +204,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
             }`}
           >
             <Users className="w-3.5 h-3.5" />
-            <span>Tamu & Kebersamaan</span>
+            <span>{t.catTamu}</span>
           </button>
 
           <button
@@ -211,7 +216,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
             }`}
           >
             <Trees className="w-3.5 h-3.5" />
-            <span>Waigeo & Kali Biru</span>
+            <span>{t.catWaigeo}</span>
           </button>
 
           <button
@@ -223,7 +228,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
-            <span>Misool & Karst</span>
+            <span>{t.catMisool}</span>
           </button>
 
           <button
@@ -235,9 +240,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ initialCategory 
             }`}
           >
             <Fish className="w-3.5 h-3.5" />
-            <span>Bawah Laut</span>
+            <span>{t.catUnderwater}</span>
           </button>
         </div>
+
 
         {/* MODE 1: SLIDER / CAROUSEL (Slide Bisa Bergeser) */}
         {viewMode === 'slider' && (

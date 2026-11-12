@@ -1,12 +1,14 @@
 import React from 'react';
 import { Compass, ShieldCheck, Cpu, Code2, Phone, Mail, MapPin, ArrowUp, FileText } from 'lucide-react';
+import { Language } from '../data/translations';
 
 interface FooterProps {
   onNavigateSection: (sectionId: string) => void;
   onOpenCV: () => void;
+  lang?: Language;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV, lang = 'id' }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -22,10 +24,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
               Kaka Yoko<span className="text-teal-600 dark:text-teal-400">.my.id</span>
             </div>
             <p className="text-xs leading-relaxed max-w-md text-slate-600 dark:text-slate-400">
-              Profil resmi Yoko Takasihaen (Kaka Yoko). Pemandu wisata terpercaya kepulauan Raja Ampat, teknisi spesialis instalasi CCTV, konsultan infrastruktur jaringan IT & Starlink, dan web developer di Sorong, Papua Barat Daya.
+              {lang === 'en'
+                ? 'Official profile of Yoko Takasihaen (Kaka Yoko). Trusted Raja Ampat tour guide, CCTV & surveillance technician, IT & Starlink network consultant, and web developer in Sorong, Southwest Papua.'
+                : 'Profil resmi Yoko Takasihaen (Kaka Yoko). Pemandu wisata terpercaya kepulauan Raja Ampat, teknisi spesialis instalasi CCTV, konsultan infrastruktur jaringan IT & Starlink, dan web developer di Sorong, Papua Barat Daya.'}
             </p>
             <div className="pt-1 flex items-center gap-2 font-mono text-teal-700 dark:text-teal-400">
-              <span>Domain Resmi:</span>
+              <span>{lang === 'en' ? 'Official Website:' : 'Domain Resmi:'}</span>
               <a href="https://www.kakayoko.my.id" target="_blank" rel="noopener noreferrer" className="hover:underline">
                 www.kakayoko.my.id
               </a>
@@ -35,7 +39,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
           {/* Col 2: Navigasi Layanan */}
           <div className="space-y-2">
             <div className="font-semibold text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
-              Layanan Utama
+              {lang === 'en' ? 'Core Services' : 'Layanan Utama'}
             </div>
             <ul className="space-y-1.5">
               <li>
@@ -43,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   onClick={() => onNavigateSection('services')}
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer text-left"
                 >
-                  Guide Raja Ampat (Spot Waigeo & Misool)
+                  {lang === 'en' ? 'Raja Ampat Guide (Waigeo & Misool)' : 'Guide Raja Ampat (Spot Waigeo & Misool)'}
                 </button>
               </li>
               <li>
@@ -51,7 +55,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   onClick={() => onNavigateSection('services')}
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer text-left"
                 >
-                  Teknisi CCTV & IP Cam Sorong
+                  {lang === 'en' ? 'CCTV & IP Cam Specialist Sorong' : 'Teknisi CCTV & IP Cam Sorong'}
                 </button>
               </li>
               <li>
@@ -59,7 +63,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   onClick={() => onNavigateSection('services')}
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer text-left"
                 >
-                  IT Konsultan, Mikrotik & Starlink
+                  {lang === 'en' ? 'IT Consultant, Mikrotik & Starlink' : 'IT Konsultan, Mikrotik & Starlink'}
                 </button>
               </li>
               <li>
@@ -67,7 +71,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   onClick={() => onNavigateSection('services')}
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer text-left"
                 >
-                  Pembuatan Website & Tour Travel
+                  {lang === 'en' ? 'Website Development & Tourism Tech' : 'Pembuatan Website & Tour Travel'}
                 </button>
               </li>
               <li>
@@ -76,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   className="text-teal-600 dark:text-teal-400 font-medium hover:underline transition cursor-pointer text-left flex items-center gap-1 mt-1"
                 >
                   <FileText className="w-3.5 h-3.5" />
-                  <span>Curriculum Vitae (CV) & Pratinjau</span>
+                  <span>{lang === 'en' ? 'Curriculum Vitae (CV) & Preview' : 'Curriculum Vitae (CV) & Pratinjau'}</span>
                 </button>
               </li>
               <li>
@@ -85,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
                   download="CV_Dwi_Priyoko_Takasihaeng.pdf"
                   className="text-teal-700 dark:text-teal-300 font-semibold hover:underline transition cursor-pointer text-left flex items-center gap-1"
                 >
-                  <span>⬇ Unduh File CV (PDF Asli)</span>
+                  <span>{lang === 'en' ? '⬇ Download Official CV (PDF)' : '⬇ Unduh File CV (PDF Asli)'}</span>
                 </a>
               </li>
             </ul>
@@ -94,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
           {/* Col 3: Kontak & Wilayah */}
           <div className="space-y-2">
             <div className="font-semibold text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
-              Kontak Resmi
+              {lang === 'en' ? 'Official Contacts' : 'Kontak Resmi'}
             </div>
             <ul className="space-y-1.5 text-xs">
               <li className="flex items-center gap-1.5">
@@ -121,14 +125,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
         {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            © {new Date().getFullYear()} Kaka Yoko (Yoko Takasihaen). Hak Cipta Dilindungi Undang-Undang.
+            © {new Date().getFullYear()} Kaka Yoko (Yoko Takasihaen). {lang === 'en' ? 'All Rights Reserved.' : 'Hak Cipta Dilindungi Undang-Undang.'}
           </div>
 
           <button
             onClick={scrollToTop}
             className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition cursor-pointer"
           >
-            <span>Kembali ke Atas</span>
+            <span>{lang === 'en' ? 'Back to Top' : 'Kembali ke Atas'}</span>
             <ArrowUp className="w-4 h-4" />
           </button>
         </div>
@@ -136,3 +140,4 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onOpenCV }) =
     </footer>
   );
 };
+

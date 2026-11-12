@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { X, MessageCircle, Send, CheckCircle2, MapPin, Compass, ShieldCheck, Cpu, Code2 } from 'lucide-react';
 
+import { Language } from '../data/translations';
+
 interface ConsultationModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultService?: string;
+  lang?: Language;
 }
 
 export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   isOpen,
   onClose,
-  defaultService = 'guide'
+  defaultService = 'guide',
+  lang = 'id'
 }) => {
   const [service, setService] = useState<string>(defaultService);
   const [name, setName] = useState('');
